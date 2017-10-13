@@ -73,7 +73,7 @@ public class UrlCache {
      * @param url	URL of the object to be downloaded. It is a fully qualified URL.
      * @throws IOException if encounters any errors/exceptions
      */
-	public int downloader(String url) throws IOException {
+	public int getObject(String url) throws IOException {
 
 	
 		PrintWriter outputStream;
