@@ -42,8 +42,11 @@ public class UrlCache {
      * @throws IOException if encounters any errors/exceptions
      */
 	@SuppressWarnings("unchecked")
-	public UrlCache() throws IOException {
+	public UrlCache(boolean ignoreCatalogue) throws IOException {
 		
+		
+			System.out.println("WE BRANCHING");
+			System.out.println("branch");
 		
 			//attempt to open the local cache
 			//if it exists, load in the url keys and lastModified vals into the catalogue
@@ -62,6 +65,9 @@ public class UrlCache {
 				System.out.println("Error: " + e.getMessage());
 			}
 
+			
+			if(ignoreCatalogue)
+				catalogue = new HashMap<String, String>();
 	}
 	
     /**
@@ -70,30 +76,22 @@ public class UrlCache {
      * @param url	URL of the object to be downloaded. It is a fully qualified URL.
      * @throws IOException if encounters any errors/exceptions
      */
-	public void downloader(String url) throws IOException {
-		
-		
-		//Variable initialization
-		String hostName;
-		String pathName;
-		int portNumber = 80; //Initialize portNumber to default: 80
-		
-		String line = "";
-		
-		PrintWriter outputStream;
 
-		/* url String Parsing */
-		hostName = url.substring(0, url.indexOf("/"));
-		pathName = url.substring(url.indexOf("/"));
+	public int getObject(String url) throws IOException {
+		System.out.println("bad code smell duude");
+
+		String line = "";
+		PrintWriter outputStream;
 		
+		int counter = 0; //keeps track of amount of bytes read
 		
-		
-		//If URL has colon, grab port-number
-		if(url.indexOf(":") != -1) {
-			hostName = url.substring(0, url.indexOf(":"));
-			portNumber = Integer.parseInt(url.substring(url.indexOf(":") + 1, url.indexOf("/")));
-			
-		}
+		URLUtilityClass urlUtility = new URLUtilityClass(url);
+
+		/* URL String Parsing */
+		String hostName = urlUtility.getHostName();
+		String pathName = urlUtility.getPathName();
+		int portNumber = urlUtility.getPortNumber();
+
 
 		try {
 			// connects to port server app listening at port 8888 in the same
@@ -125,7 +123,7 @@ public class UrlCache {
 			byte[] http_object_bytes = new byte[4096];
 			
 			/*read-in http header */
-			String http_response_header_string = getHTTPHeader(socket, outputStream);
+			String http_response_header_string = getHTTPHeader(socket);
 
 			
 			Scanner headScanner = new Scanner(http_response_header_string);
@@ -146,6 +144,9 @@ public class UrlCache {
 			headScanner.close();
 
 
+			System.out.println(objectLength);
+			
+			
 			if(http_response_header_string.contains("304 Not Modified")) {
 				//Do nothing, page has not been modified since the last time it was downloaded
 				System.out.println(url + " - File already in local cache, not downloading");
@@ -161,7 +162,7 @@ public class UrlCache {
 				FileOutputStream fos = new FileOutputStream(f);
 				//fos.close();
 
-				int counter = 0; //keeps track of amount of bytes read
+	
 				int num_byte_read = 0;
 				
 				while(num_byte_read != -1) {
@@ -214,6 +215,7 @@ public class UrlCache {
 		
 		System.out.println("------------------------------------------");
 
+		return counter;
 	}
 	
     /**
@@ -239,7 +241,7 @@ public class UrlCache {
 	}
 	
 	
-	public String getHTTPHeader(Socket socket, PrintWriter outputStream) throws IOException {
+	public String getHTTPHeader(Socket socket) throws IOException {
 		
 		//integers to represent offset while reading and the number of bytes read
 		int off = 0;
