@@ -35,7 +35,10 @@ public class URLUtilityClass {
 		
 		//check if URL has portumber
 		if(url.indexOf(":") != -1) {
-			portNumber = Integer.parseInt(url.substring(url.indexOf(":") + 1, url.indexOf("/")));	
+			int startIndex = url.indexOf(":") + 1;
+			int endIndex = url.indexOf("/");
+			
+			portNumber = Integer.parseInt(url.substring(startIndex, endIndex));	
 		}
 		
 		return portNumber;
