@@ -115,7 +115,7 @@ public class UrlCache {
 
 		
 			/*read-in http header */
-			String http_response_header_string = getHTTPHeader(socket, outputStream);
+			String http_response_header_string = getHTTPHeader(socket);
 
 			
 			Scanner headScanner = new Scanner(http_response_header_string);
@@ -199,7 +199,7 @@ public class UrlCache {
 	}
 	
 	
-	public String getHTTPHeader(Socket socket, PrintWriter outputStream) throws IOException {
+	public String getHTTPHeader(Socket socket) throws IOException {
 		
 		//integers to represent offset while reading and the number of bytes read
 		int off = 0;
