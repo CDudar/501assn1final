@@ -23,16 +23,16 @@ public class SuccessfulDownloadTester {
 			UrlCache cache = new UrlCache(true);
 			
 			
-			bytesDownloaded = cache.getObject("people.ucalgary.ca/~mghaderi/index.html");
+			bytesDownloaded = cache.downloader("people.ucalgary.ca/~mghaderi/index.html");
 			assertEquals(5974 , bytesDownloaded);
 			
-			bytesDownloaded = cache.getObject("people.ucalgary.ca/~mghaderi/test/uc.gif");
+			bytesDownloaded = cache.downloader("people.ucalgary.ca/~mghaderi/test/uc.gif");
 			assertEquals(3090, bytesDownloaded);
 			
-			bytesDownloaded = cache.getObject("people.ucalgary.ca/~mghaderi/test/a.pdf");
+			bytesDownloaded = cache.downloader("people.ucalgary.ca/~mghaderi/test/a.pdf");
 			assertEquals(479301, bytesDownloaded);
 			
-			bytesDownloaded = cache.getObject("people.ucalgary.ca:80/~mghaderi/test/test.html");
+			bytesDownloaded = cache.downloader("people.ucalgary.ca:80/~mghaderi/test/test.html");
 			assertEquals(35, bytesDownloaded);
 			
 		}

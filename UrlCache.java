@@ -73,7 +73,7 @@ public class UrlCache {
      * @param url	URL of the object to be downloaded. It is a fully qualified URL.
      * @throws IOException if encounters any errors/exceptions
      */
-	public int getObject(String url) throws IOException {
+	public int downloader(String url) throws IOException {
 
 	
 		PrintWriter outputStream;
@@ -115,7 +115,7 @@ public class UrlCache {
 
 		
 			/*read-in http header */
-			String http_response_header_string = getHTTPHeader(socket);
+			String http_response_header_string = getHTTPHeader(socket, outputStream);
 
 			
 			Scanner headScanner = new Scanner(http_response_header_string);
@@ -199,7 +199,7 @@ public class UrlCache {
 	}
 	
 	
-	public String getHTTPHeader(Socket socket) throws IOException {
+	public String getHTTPHeader(Socket socket, PrintWriter outputStream) throws IOException {
 		
 		//integers to represent offset while reading and the number of bytes read
 		int off = 0;

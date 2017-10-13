@@ -31,7 +31,7 @@ public class Tester {
 			UrlCache cache = new UrlCache(false);
 			
 			for (int i = 0; i < url.length; i++) {
-				cache.getObject(url[i]);
+				cache.downloader(url[i]);
 			}
 			
 			//System.out.println("Last-Modified for " + url[0] + " is: " + cache.getLastModified(url[0]));
